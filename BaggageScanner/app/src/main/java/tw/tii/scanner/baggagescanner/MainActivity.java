@@ -23,6 +23,7 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+import org.altbeacon.beacon.service.RangedBeacon;
 
 import java.util.Collection;
 
@@ -126,12 +127,12 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
 
         m_BeaconM = BeaconManager.getInstanceForApplication(this);
-
         // Add parser for iBeacon.
         m_BeaconM.getBeaconParsers().add(
                 new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")
         );
-
+        // http://stackoverflow.com/a/25521588
+        RangedBeacon.setSampleExpirationMilliseconds(6000);
         m_BeaconM.bind(this);
 
         m_RangeNotifier = new MyRangeNotifier();
