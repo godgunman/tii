@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center_horizontal"
-            android:text="5"
+            android:text="0"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center_horizontal"
-            android:text="6"
+            android:text="0"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 

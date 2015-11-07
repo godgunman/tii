@@ -2,6 +2,8 @@ package tw.tii.hackjunction.driverapp;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -10,6 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -24,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -60,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         isMarkerPicker = new HashMap<>();
         mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Request");
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -72,7 +76,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if (point != null) {
                         LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
                         String username = object.getString("username");
-                        markerOptionsList.add(new MarkerOptions().position(latLng).title(username));
+                        markerOptionsList.add(new MarkerOptions()
+                                .position(latLng)
+                                .title(username)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                        );
                     }
                 }
 
@@ -88,20 +96,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        if (isMarkerPicker.get(marker) == false) {
-                            isMarkerPicker.put(marker, true);
+                        int locationPickInt =
+                                Integer.parseInt(locationPick.getText().toString());
+                        int baggagePickInt =
+                                Integer.parseInt(baggagePick.getText().toString());
 
-                            int locationPickInt =
-                                    Integer.parseInt(locationPick.getText().toString());
-                            locationPick.setText(String.valueOf(locationPickInt + 1));
-
-                            int baggagePickInt =
-                                    Integer.parseInt(baggagePick.getText().toString());
-                            baggagePick.setText(String.valueOf(baggagePickInt + 1));
-
+                        if (isMarkerPicker.containsKey(marker) == false ||
+                                isMarkerPicker.get(marker) == Boolean.FALSE) {
+                            marker.setIcon(BitmapDescriptorFactory.
+                                    defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                            isMarkerPicker.put(marker, Boolean.TRUE);
+                            locationPickInt++;
+                            baggagePickInt++;
                         } else {
-                            isMarkerPicker.put(marker, false);
+                            marker.setIcon(BitmapDescriptorFactory.
+                                    defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                            isMarkerPicker.put(marker, Boolean.FALSE);
+                            locationPickInt--;
+                            baggagePickInt--;
                         }
+
+                        locationPick.setText(String.valueOf(locationPickInt));
+                        baggagePick.setText(String.valueOf(baggagePickInt));
+
                         return false;
                     }
                 });
@@ -125,6 +142,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (id == R.id.action_go) {
 
+        } else if (id == R.id.action_init) {
+            Utils.initParseData();
         }
 
         return super.onOptionsItemSelected(item);
