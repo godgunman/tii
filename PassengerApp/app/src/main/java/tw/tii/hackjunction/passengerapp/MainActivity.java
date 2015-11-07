@@ -17,6 +17,7 @@ import tw.tii.hackjunction.passengerapp.fragment.ConfirmFragment;
 import tw.tii.hackjunction.passengerapp.fragment.LogInFragment;
 import tw.tii.hackjunction.passengerapp.fragment.SelectDatetimeFragment;
 import tw.tii.hackjunction.passengerapp.fragment.SelectFlightFragment;
+import tw.tii.hackjunction.passengerapp.fragment.SelectLocationFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    public void nextToSelectDatetime(View view) {
+        storeFragment();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, new SelectDatetimeFragment());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
     public void nextToBaggageInfo(View view) {
         storeFragment();
         FragmentTransaction ft = fm.beginTransaction();
@@ -56,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void nextToSelectDatetime(View view) {
+    public void nextToSelectLocation(View view) {
         storeFragment();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment_container, new SelectDatetimeFragment());
+        ft.replace(R.id.fragment_container, new SelectLocationFragment());
         ft.addToBackStack(null);
         ft.commit();
     }

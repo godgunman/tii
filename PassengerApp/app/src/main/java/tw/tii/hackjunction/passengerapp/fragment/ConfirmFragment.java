@@ -20,6 +20,7 @@ public class ConfirmFragment extends BaseFragment {
     private TextView flightInfo;
     private TextView baggageInfo;
     private TextView datetimeInfo;
+    private TextView locationInfo;
 
     @Nullable
     @Override
@@ -36,6 +37,9 @@ public class ConfirmFragment extends BaseFragment {
         datetimeInfo = (TextView) view.findViewById(R.id.text_datetime_info);
         datetimeInfo.setText(getString("pickup_datetime"));
 
+        locationInfo = (TextView) view.findViewById(R.id.text_location_info);
+        locationInfo.setText(getString("location_info"));
+
         return view;
     }
 
@@ -43,11 +47,13 @@ public class ConfirmFragment extends BaseFragment {
         String flightInfoStr = flightInfo.getText().toString();
         String baggageInfoStr = baggageInfo.getText().toString();
         String datetimeInfoStr = datetimeInfo.getText().toString();
+        String locationInfoStr = locationInfo.getText().toString();
 
         ParseObject request = new ParseObject("Request");
         request.put("flight_info", flightInfoStr);
         request.put("baggage_info", baggageInfoStr);
         request.put("pickup_datetime", datetimeInfoStr);
+        request.put("location_info", locationInfoStr);
 
         return request;
     }
