@@ -1,5 +1,6 @@
 package tw.tii.hackjunction.passenger.passengerapp;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+
+import tw.tii.hackjunction.passenger.passengerapp.fragment.SelectFlightFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
@@ -97,5 +103,29 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * Fragment's Next Button
+     *
+     * @param view
+     */
+    public void nextToSelectDatetime(View view) {
+
+    }
+
+    /**
+     * Fragment's Next Button
+     *
+     * @param view
+     */
+    public void nextToSelectFlight(View view) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_content_main, new SelectFlightFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.app_bar_main);
+        viewGroup.invalidate();
     }
 }

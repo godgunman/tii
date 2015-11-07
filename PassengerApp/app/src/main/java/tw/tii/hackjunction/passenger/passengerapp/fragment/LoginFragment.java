@@ -12,13 +12,15 @@ import tw.tii.hackjunction.passenger.passengerapp.R;
 /**
  * Created by ggm on 11/7/15.
  */
-public class MainContentFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_content_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
+
+        return view;
     }
 
 }

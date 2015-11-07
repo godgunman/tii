@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/app_bar_main"
     tools:context=".MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -23,11 +24,11 @@
 
     <fragment
         android:id="@+id/fragment_content_main"
-        android:name="tw.tii.hackjunction.passenger.passengerapp.fragment.MainContentFragment"
+        android:name="tw.tii.hackjunction.passenger.passengerapp.fragment.LoginFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:layout="@layout/fragment_content_main" />
+        tools:layout="@layout/fragment_login" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
