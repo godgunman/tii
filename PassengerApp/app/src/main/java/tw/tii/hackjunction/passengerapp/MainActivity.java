@@ -14,6 +14,7 @@ import com.parse.SaveCallback;
 import tw.tii.hackjunction.passengerapp.fragment.BaggageInfoFragment;
 import tw.tii.hackjunction.passengerapp.fragment.BaseFragment;
 import tw.tii.hackjunction.passengerapp.fragment.ConfirmFragment;
+import tw.tii.hackjunction.passengerapp.fragment.FlightInfoFragment;
 import tw.tii.hackjunction.passengerapp.fragment.LogInFragment;
 import tw.tii.hackjunction.passengerapp.fragment.SelectDatetimeFragment;
 import tw.tii.hackjunction.passengerapp.fragment.SelectFlightFragment;
@@ -45,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
         storeFragment();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, new SelectFlightFragment());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    public void nextToShowFlightInfo(View view) {
+        storeFragment();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, new FlightInfoFragment());
         ft.addToBackStack(null);
         ft.commit();
     }
