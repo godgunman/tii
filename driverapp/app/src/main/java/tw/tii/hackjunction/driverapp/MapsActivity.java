@@ -48,7 +48,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationPick = (TextView) findViewById(R.id.text_location_pick);
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -141,6 +140,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         int id = item.getItemId();
 
         if (id == R.id.action_go) {
+            //TODO
+            // Go To LocationListActivity
+            // Push Notification To Passenger
 
         } else if (id == R.id.action_init) {
             Utils.initParseData();
