@@ -6,13 +6,16 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.parse.ParseObject;
 
 import tw.tii.hackjunction.passengerapp.R;
 
 /**
  * Created by ggm on 11/7/15.
  */
-public class SelectFlightFragment extends Fragment{
+public class SelectFlightFragment extends BaseFragment {
 
     @Nullable
     @Override
@@ -20,5 +23,11 @@ public class SelectFlightFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_select_flight,
                 container, false);
         return view;
+    }
+
+    public void putAllData() {
+        String flightNumber =
+                ((TextView)getView().findViewById(R.id.text_flight_number)).getText().toString();
+        putData("flight_info", flightNumber);
     }
 }

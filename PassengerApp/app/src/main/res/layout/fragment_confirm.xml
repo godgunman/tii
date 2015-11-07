@@ -17,6 +17,52 @@
         android:layout_height="wrap_content"
         android:text="Flight Information" />
 
+    <TextView
+        android:id="@+id/text_flight_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/text_flight_info"
+        android:layout_marginTop="@dimen/confirm_field_margin"
+        android:text="Pickup Datetime Information" />
+
+    <TextView
+        android:id="@+id/text_datetime_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView3"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Baggage Information"
+        android:layout_below="@+id/text_datetime_info"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/confirm_field_margin" />
+
+    <TextView
+        android:id="@+id/text_baggage_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView5"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <Button
         android:id="@+id/button_log_in"
         android:layout_width="wrap_content"
@@ -24,14 +70,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:onClick="confirm"
-        android:text="next" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView2"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:text="Send Request" />
 </RelativeLayout>

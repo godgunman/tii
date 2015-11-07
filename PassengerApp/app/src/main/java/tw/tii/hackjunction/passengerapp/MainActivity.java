@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import tw.tii.hackjunction.passengerapp.fragment.BaggageInfoFragment;
 import tw.tii.hackjunction.passengerapp.fragment.ConfirmFragment;
 import tw.tii.hackjunction.passengerapp.fragment.LogInFragment;
 import tw.tii.hackjunction.passengerapp.fragment.SelectDatetimeFragment;
@@ -29,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, new SelectFlightFragment());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    public void nextToBaggageInfo(View view) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, new BaggageInfoFragment());
         ft.addToBackStack(null);
         ft.commit();
     }
