@@ -5,14 +5,22 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 import tw.tii.hackjunction.passengerapp.fragment.BaggageInfoFragment;
+import tw.tii.hackjunction.passengerapp.fragment.BaseFragment;
 import tw.tii.hackjunction.passengerapp.fragment.ConfirmFragment;
 import tw.tii.hackjunction.passengerapp.fragment.LogInFragment;
 import tw.tii.hackjunction.passengerapp.fragment.SelectDatetimeFragment;
 import tw.tii.hackjunction.passengerapp.fragment.SelectFlightFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+    private FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +29,19 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new LogInFragment()).commit();
+                    .add(R.id.fragment_container, new SelectFlightFragment()).commit();
         }
+        fm = getSupportFragmentManager();
 
     }
 
+    private void storeFragment() {
+        BaseFragment fragment = (BaseFragment) fm.findFragmentById(R.id.fragment_container);
+        fragment.putAllData();
+    }
+
     public void nextToSelectFlight(View view) {
-        FragmentManager fm = getSupportFragmentManager();
+        storeFragment();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, new SelectFlightFragment());
         ft.addToBackStack(null);
@@ -35,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextToBaggageInfo(View view) {
-        FragmentManager fm = getSupportFragmentManager();
+        storeFragment();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, new BaggageInfoFragment());
         ft.addToBackStack(null);
@@ -43,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextToSelectDatetime(View view) {
-        FragmentManager fm = getSupportFragmentManager();
+        storeFragment();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, new SelectDatetimeFragment());
         ft.addToBackStack(null);
@@ -51,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextToConfirm(View view) {
-        FragmentManager fm = getSupportFragmentManager();
+        storeFragment();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, new ConfirmFragment());
         ft.addToBackStack(null);
@@ -59,6 +73,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void confirm(View view) {
+        ConfirmFragment confirmFragment = (ConfirmFragment)
+                fm.findFragmentById(R.id.fragment_container);
 
+        ParseObject object = confirmFragment.getData();
+        object.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(MainActivity.this, "done.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

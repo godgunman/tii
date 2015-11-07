@@ -15,28 +15,45 @@ import tw.tii.hackjunction.passengerapp.R;
 /**
  * Created by ggm on 11/7/15.
  */
-public class ConfirmFragment extends Fragment{
+public class ConfirmFragment extends BaseFragment {
+
+    private TextView flightInfo;
+    private TextView baggageInfo;
+    private TextView datetimeInfo;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_confirm,
                 container, false);
+
+        flightInfo = (TextView) view.findViewById(R.id.text_flight_info);
+        flightInfo.setText(getString("flight_info"));
+
+        baggageInfo = (TextView) view.findViewById(R.id.text_baggage_info);
+        baggageInfo.setText(getString("baggage_info"));
+
+        datetimeInfo = (TextView) view.findViewById(R.id.text_datetime_info);
+        datetimeInfo.setText(getString("pickup_datetime"));
+
         return view;
     }
 
     public ParseObject getData() {
-        View view = getView();
-
-        String flightInfo = ((TextView)view.findViewById(R.id.text_flight_info)).toString();
-        String baggageInfo = ((TextView)view.findViewById(R.id.text_baggage_info)).toString();
-        String datetimeInfo = ((TextView)view.findViewById(R.id.text_datetime_info)).toString();
+        String flightInfoStr = flightInfo.getText().toString();
+        String baggageInfoStr = baggageInfo.getText().toString();
+        String datetimeInfoStr = datetimeInfo.getText().toString();
 
         ParseObject request = new ParseObject("Request");
-        request.put("flight_info", flightInfo);
-        request.put("baggage_info", baggageInfo);
-        request.put("pickup_datetime", datetimeInfo);
+        request.put("flight_info", flightInfoStr);
+        request.put("baggage_info", baggageInfoStr);
+        request.put("pickup_datetime", datetimeInfoStr);
 
         return request;
+    }
+
+    @Override
+    public void putAllData() {
+
     }
 }

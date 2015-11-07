@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 /**
  * Created by ggm on 11/7/15.
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -24,4 +24,11 @@ public class BaseFragment extends Fragment {
         editor.putString(key, value);
         editor.commit();
     }
+
+    public String getString(String key) {
+        return sp.getString(key, "");
+
+    }
+
+    public abstract void putAllData();
 }
