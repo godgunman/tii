@@ -15,17 +15,35 @@
         android:id="@+id/text_flight_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
         android:ems="10"
-        android:hint="select flight number"/>
+        android:hint="select flight number"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
-    <Button
-        android:id="@+id/button_log_in"
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="139dp"
+        android:id="@+id/finnair"
+        android:src="@drawable/finnair"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="nextToSelectDatetime"
-        android:text="next"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/text_flight_number" />
+        android:text="Please enter your flight number here."
+        android:id="@+id/textView"
+        android:layout_below="@+id/text_flight_number"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="160dp"
+        android:layout_height="26dp"
+        android:id="@+id/button_log_in"
+        android:scaleType="centerInside"
+        android:background="@drawable/btn_enter"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
