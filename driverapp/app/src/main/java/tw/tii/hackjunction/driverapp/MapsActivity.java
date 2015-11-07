@@ -2,17 +2,35 @@ package tw.tii.hackjunction.driverapp;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    private TextView locationPick;
+    private TextView baggagePick;
+    private Map<Marker, Boolean> isMarkerPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +40,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        baggagePick = (TextView) findViewById(R.id.text_buggage_pick);
+        locationPick = (TextView) findViewById(R.id.text_location_pick);
     }
 
 
@@ -36,11 +57,76 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        isMarkerPicker = new HashMap<>();
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Request");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                List<MarkerOptions> markerOptionsList = new ArrayList<>();
+
+                for (ParseObject object : objects) {
+                    ParseGeoPoint point = object.getParseGeoPoint("location");
+                    if (point != null) {
+                        LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
+                        String username = object.getString("username");
+                        markerOptionsList.add(new MarkerOptions().position(latLng).title(username));
+                    }
+                }
+
+                for (MarkerOptions markerOption : markerOptionsList) {
+                    mMap.addMarker(markerOption);
+                }
+
+                if (markerOptionsList.size() != 0) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                            markerOptionsList.get(0).getPosition(), 15));
+                }
+
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        if (isMarkerPicker.get(marker) == false) {
+                            isMarkerPicker.put(marker, true);
+
+                            int locationPickInt =
+                                    Integer.parseInt(locationPick.getText().toString());
+                            locationPick.setText(String.valueOf(locationPickInt + 1));
+
+                            int baggagePickInt =
+                                    Integer.parseInt(baggagePick.getText().toString());
+                            baggagePick.setText(String.valueOf(baggagePickInt + 1));
+
+                        } else {
+                            isMarkerPicker.put(marker, false);
+                        }
+                        return false;
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_go) {
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
