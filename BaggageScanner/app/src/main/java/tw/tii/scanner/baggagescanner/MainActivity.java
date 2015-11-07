@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParsePush;
@@ -25,7 +25,11 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.service.RangedBeacon;
 
+import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
@@ -53,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                     });
 
                     if ((!checked) && (beacon.getDistance() < 1)) {
+                        m_ListData.add(0, DateFormat.getDateTimeInstance().format(new Date()) + "\nPush notification sent to somebody.");
+
                         ParsePush push = new ParsePush();
                         push.setChannel(PUSH_CHANNEL);
                         push.setMessage("Your baggage has been checked-in.");
@@ -64,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                                     public void run() {
                                         TextView textView = (TextView)findViewById(R.id.value_push);
                                         textView.setText("true");
+
+                                        ListView listView = (ListView)findViewById(R.id.listView);
+                                        ((ArrayAdapter<String>)listView.getAdapter()).notifyDataSetChanged();
                                     }
                                 });
 
@@ -78,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
     private BeaconManager m_BeaconM;
     private MyRangeNotifier m_RangeNotifier;
+    private ArrayList<String> m_ListData = new ArrayList<String>();
 
     private final String BEACON_ID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
     private final Region SCAN_REGION = new Region("BAGGAGE_SCAN_REGION", null, null, null);
@@ -97,21 +107,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button resetButton = (Button)findViewById(R.id.reset_button);
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                m_RangeNotifier.reset();
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TextView textView = (TextView)findViewById(R.id.value_push);
-                        textView.setText("false");
-                    }
-                });
-            }
-        });
+        ListView listView = (ListView)findViewById(R.id.listView);
+        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_ListData));
 
         ParsePush.subscribeInBackground(PUSH_CHANNEL);
 
@@ -124,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                 }
             }
         }
-
 
         m_BeaconM = BeaconManager.getInstanceForApplication(this);
         // Add parser for iBeacon.
@@ -160,7 +156,13 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_reset) {
+            m_RangeNotifier.reset();
+
+            TextView textView = (TextView)findViewById(R.id.value_push);
+            textView.setText("false");
+
+            Toast.makeText(this, R.string.action_reset, Toast.LENGTH_SHORT).show();
             return true;
         }
 
