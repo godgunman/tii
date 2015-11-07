@@ -1,4 +1,4 @@
-package tw.tii.hackjunction.passenger.passengerapp;
+package tw.tii.hackjunction.passengerapp;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

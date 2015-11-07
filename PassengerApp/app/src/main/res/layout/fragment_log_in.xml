@@ -12,20 +12,30 @@
     tools:context=".MainActivity">
 
     <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editText2"
+        android:layout_alignParentStart="true"
+        android:ems="10"
+        android:hint="username"
+        android:inputType="textPersonName" />
+
+    <EditText
         android:id="@+id/editText2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:ems="10"
-        android:hint="select flight nuber"
+        android:hint="password"
         android:inputType="textPassword" />
 
     <Button
         android:id="@+id/button_log_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="nextToSelectDatetime"
+        android:onClick="nextToSelectFlight"
         android:text="next"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/editText2" />
