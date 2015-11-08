@@ -6,9 +6,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.parse.ParseObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import tw.tii.hackjunction.passengerapp.R;
 
@@ -17,37 +24,40 @@ import tw.tii.hackjunction.passengerapp.R;
  */
 public class ConfirmFragment extends BaseFragment {
 
-    private TextView flightInfo;
-    private TextView baggageInfo;
-    private TextView datetimeInfo;
-    private TextView locationInfo;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_confirm,
                 container, false);
 
-        flightInfo = (TextView) view.findViewById(R.id.text_flight_info);
-        flightInfo.setText(getString("flight_info"));
+        ListView listView = (ListView) view.findViewById(R.id.list_summary);
+        List<Map<String, String>> data = new ArrayList<>();
 
-        baggageInfo = (TextView) view.findViewById(R.id.text_baggage_info);
-        baggageInfo.setText(getString("baggage_info"));
+        String[] titles = {"Flight Info", "Baggage Status", "Pickup Time", "Pick Location"};
+        String[] contents = {getString("flight_info"), getString("baggage_info"),
+                getString("pickup_datetime"), getString("location_info")};
 
-        datetimeInfo = (TextView) view.findViewById(R.id.text_datetime_info);
-        datetimeInfo.setText(getString("pickup_datetime"));
+        for (int i = 0; i < titles.length; i++) {
+            Map<String, String> item = new HashMap<>();
+            item.put("title", titles[i]);
+            item.put("content", contents[i]);
+            data.add(item);
+        }
 
-        locationInfo = (TextView) view.findViewById(R.id.text_location_info);
-        locationInfo.setText(getString("location_info"));
+        String[] from = {"title", "content"};
+        int[] to = {android.R.id.text1, android.R.id.text2};
+        SimpleAdapter adapter = new SimpleAdapter(getActivity(), data, android.R.layout.simple_list_item_2, from, to);
+
+        listView.setAdapter(adapter);
 
         return view;
     }
 
     public ParseObject getData() {
-        String flightInfoStr = flightInfo.getText().toString();
-        String baggageInfoStr = baggageInfo.getText().toString();
-        String datetimeInfoStr = datetimeInfo.getText().toString();
-        String locationInfoStr = locationInfo.getText().toString();
+        String flightInfoStr = getString("flight_info");
+        String baggageInfoStr = getString("baggage_info");
+        String datetimeInfoStr = getString("pickup_datetime");
+        String locationInfoStr = getString("location_info");
 
         ParseObject request = new ParseObject("Request");
         request.put("flight_info", flightInfoStr);

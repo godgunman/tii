@@ -16,7 +16,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/button_log_in"
+        android:id="@+id/button_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
