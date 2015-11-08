@@ -1,5 +1,9 @@
 package tw.tii.scanner.baggagescanner;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,6 +51,36 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    private void blink() {
+        final View view = findViewById(R.id.backgroundLayout);
+        final Integer white = getResources().getColor(android.R.color.white);
+        final Integer blink = getResources().getColor(R.color.colorBlink);
+        view.setBackgroundColor(blink);
+        ValueAnimator a1 = ValueAnimator.ofObject(new ArgbEvaluator(), blink, white);
+        a1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                view.setBackgroundColor((Integer) animator.getAnimatedValue());
+            }
+        });
+        a1.setDuration(200);
+        a1.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                view.setBackgroundColor(blink);
+                ValueAnimator a2 = ValueAnimator.ofObject(new ArgbEvaluator(), blink, white);
+                a2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        view.setBackgroundColor((Integer) animator.getAnimatedValue());
+                    }
+                });
+                a2.setDuration(200);
+                a2.start();
+            }
+        });
+        a1.start();
     }
 
     private class MyRangeNotifier implements RangeNotifier {
@@ -83,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        blink();
+
                                         TextView textView = (TextView)findViewById(R.id.value_push);
                                         textView.setText("true");
 
