@@ -1,5 +1,6 @@
 package tw.tii.hackjunction.driverapp;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -34,6 +36,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView locationPick;
     private TextView baggagePick;
     private Map<Marker, Boolean> isMarkerPicker;
+    private Map<Marker, String> markerToParseObjectId;
+    private boolean isCameraMoved;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,67 +65,70 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        isCameraMoved = false;
+
         isMarkerPicker = new HashMap<>();
+        markerToParseObjectId = new HashMap<>();
+
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                int locationPickInt =
+                        Integer.parseInt(locationPick.getText().toString());
+                int baggagePickInt =
+                        Integer.parseInt(baggagePick.getText().toString());
+
+                if (isMarkerPicker.containsKey(marker) == false ||
+                        isMarkerPicker.get(marker) == Boolean.FALSE) {
+                    marker.setIcon(BitmapDescriptorFactory.
+                            defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    isMarkerPicker.put(marker, Boolean.TRUE);
+                    locationPickInt++;
+                    baggagePickInt++;
+                } else {
+                    marker.setIcon(BitmapDescriptorFactory.
+                            defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                    isMarkerPicker.put(marker, Boolean.FALSE);
+                    locationPickInt--;
+                    baggagePickInt--;
+                }
+
+                locationPick.setText(String.valueOf(locationPickInt));
+                baggagePick.setText(String.valueOf(baggagePickInt));
+
+                return false;
+            }
+        });
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Request");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                List<MarkerOptions> markerOptionsList = new ArrayList<>();
 
                 for (ParseObject object : objects) {
                     ParseGeoPoint point = object.getParseGeoPoint("location");
                     if (point != null) {
+
                         LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
                         String username = object.getString("username");
-                        markerOptionsList.add(new MarkerOptions()
-                                .position(latLng)
-                                .title(username)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                        );
-                    }
-                }
+                        String baggageInfo = object.getString("baggage_info");
+                        String address = object.getString("address");
+                        Marker marker = mMap.addMarker(new MarkerOptions()
+                                        .position(latLng)
+                                        .title(username)
+                                        .snippet(address)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        markerToParseObjectId.put(marker, object.getObjectId());
 
-                for (MarkerOptions markerOption : markerOptionsList) {
-                    mMap.addMarker(markerOption);
-                }
-
-                if (markerOptionsList.size() != 0) {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                            markerOptionsList.get(0).getPosition(), 15));
-                }
-
-                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        int locationPickInt =
-                                Integer.parseInt(locationPick.getText().toString());
-                        int baggagePickInt =
-                                Integer.parseInt(baggagePick.getText().toString());
-
-                        if (isMarkerPicker.containsKey(marker) == false ||
-                                isMarkerPicker.get(marker) == Boolean.FALSE) {
-                            marker.setIcon(BitmapDescriptorFactory.
-                                    defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                            isMarkerPicker.put(marker, Boolean.TRUE);
-                            locationPickInt++;
-                            baggagePickInt++;
-                        } else {
-                            marker.setIcon(BitmapDescriptorFactory.
-                                    defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                            isMarkerPicker.put(marker, Boolean.FALSE);
-                            locationPickInt--;
-                            baggagePickInt--;
+                        if (isCameraMoved == false) {
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                            isCameraMoved = true;
                         }
-
-                        locationPick.setText(String.valueOf(locationPickInt));
-                        baggagePick.setText(String.valueOf(baggagePickInt));
-
-                        return false;
                     }
-                });
+                }
             }
         });
     }
@@ -143,6 +151,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             //TODO
             // Go To LocationListActivity
             // Push Notification To Passenger
+
+            Intent intent = new Intent();
+            intent.setClass(this, LocationListActivity.class);
+
+            List<String> orderIdList = new ArrayList<>();
+            List<String> addressList = new ArrayList<>();
+            List<String> nameList = new ArrayList<>();
+
+            Set<Marker> keySet = isMarkerPicker.keySet();
+            for (Marker marker : keySet) {
+                if (isMarkerPicker.get(marker) == Boolean.TRUE) {
+                    orderIdList.add(markerToParseObjectId.get(marker));
+                    addressList.add(marker.getSnippet());
+                    nameList.add(marker.getTitle());
+                }
+            }
+
+            intent.putExtra("order_id_list", orderIdList.toArray(new String[orderIdList.size()]));
+            intent.putExtra("address_list", addressList.toArray(new String[addressList.size()]));
+            intent.putExtra("name_list", nameList.toArray(new String[nameList.size()]));
+
+            startActivity(intent);
 
         } else if (id == R.id.action_init) {
             Utils.initParseData();
