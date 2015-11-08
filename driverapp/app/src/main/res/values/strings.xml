@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">DriverApp</string>
-    <string name="title_activity_maps"><DriverApp></DriverApp></string>
+    <string name="title_activity_maps">DriverApp</string>
 </resources>
