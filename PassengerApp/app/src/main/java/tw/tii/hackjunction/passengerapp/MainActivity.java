@@ -19,6 +19,7 @@ import tw.tii.hackjunction.passengerapp.fragment.LogInFragment;
 import tw.tii.hackjunction.passengerapp.fragment.SelectDatetimeFragment;
 import tw.tii.hackjunction.passengerapp.fragment.SelectFlightFragment;
 import tw.tii.hackjunction.passengerapp.fragment.SelectLocationFragment;
+import tw.tii.hackjunction.passengerapp.fragment.SummaryFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -90,7 +91,15 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void confirm(View view) {
+    public void nextToSummary(View view) {
+        storeFragment();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, new SummaryFragment());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    public void confirm(final View view) {
         ConfirmFragment confirmFragment = (ConfirmFragment)
                 fm.findFragmentById(R.id.fragment_container);
 
@@ -100,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(MainActivity.this, "done.", Toast.LENGTH_SHORT).show();
+                    nextToSummary(view);
                 }
             }
         });
