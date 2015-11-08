@@ -2,12 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tw.tii.hackjunction.driverapp" >
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
-    -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,10 +11,9 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission
-        android:name="tw.tii.hackjunction.passengerapp.permission.C2D_MESSAGE"
+        android:name="tw.tii.hackjunction.driverapp.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-
-    <uses-permission android:name="tw.tii.hackjunction.passengerapp.permission.C2D_MESSAGE" />
+    <uses-permission android:name="tw.tii.hackjunction.driverapp.permission.C2D_MESSAGE" />
 
     <application
         android:name=".DriverApp"
@@ -29,9 +22,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyACFkeKHFjnYZVOklT_V7of_nxLK0Q1LSM" />
 
         <activity
             android:name=".MapsActivity"
@@ -60,9 +54,7 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-<!--                   IMPORTANT: Change "tw.tii.hackjunction.passengerapp" to match your app's package name. -->
-                <category android:name="tw.tii.hackjunction.passengerapp" />
+                <category android:name="tw.tii.hackjunction.driverapp" />
             </intent-filter>
         </receiver>
 
