@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class ConfirmFragment extends BaseFragment {
 
         String[] titles = {"Flight Info", "Baggage Status", "Pickup Time", "Pick Location"};
         String[] contents = {getString("flight_info"), getString("baggage_info"),
-                getString("pickup_datetime"), getString("location_info")};
+                getString("pickup_datetime"), getString("address") + "\n" + getString("location")};
 
         for (int i = 0; i < titles.length; i++) {
             Map<String, String> item = new HashMap<>();
@@ -50,6 +51,8 @@ public class ConfirmFragment extends BaseFragment {
 
         listView.setAdapter(adapter);
 
+        getActivity().setTitle("Your Order");
+
         return view;
     }
 
@@ -57,13 +60,21 @@ public class ConfirmFragment extends BaseFragment {
         String flightInfoStr = getString("flight_info");
         String baggageInfoStr = getString("baggage_info");
         String datetimeInfoStr = getString("pickup_datetime");
-        String locationInfoStr = getString("location_info");
+
+        String location = getString("location");
+        String address = getString("address");
 
         ParseObject request = new ParseObject("Request");
         request.put("flight_info", flightInfoStr);
         request.put("baggage_info", baggageInfoStr);
         request.put("pickup_datetime", datetimeInfoStr);
-        request.put("location_info", locationInfoStr);
+        request.put("address", address);
+
+        if (location != null) {
+            double lat = Double.valueOf(location.split(",")[0]);
+            double lng = Double.valueOf(location.split(",")[1]);
+            request.put("location", new ParseGeoPoint(lat, lng));
+        }
 
         return request;
     }

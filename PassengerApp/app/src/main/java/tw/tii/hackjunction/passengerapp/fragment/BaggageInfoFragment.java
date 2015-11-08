@@ -31,6 +31,8 @@ public class BaggageInfoFragment extends BaseFragment {
         baggageNumber = (Spinner) view.findViewById(R.id.spinner_baggage_number);
         initSpinner();
 
+        getActivity().setTitle("Baggage Information");
+
         return view;
     }
 

@@ -29,6 +29,8 @@ public class SelectFlightFragment extends BaseFragment {
         TextView flightNumber = (TextView) view.findViewById(R.id.text_flight_number);
         flightNumber.setText(randomData[new Random().nextInt(randomData.length)]);
 
+        getActivity().setTitle("Flight Information");
+
         return view;
     }
 

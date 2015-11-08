@@ -31,6 +31,8 @@ public class SelectDatetimeFragment extends BaseFragment {
         timePicker.setCurrentHour(new Random().nextInt(24));
         timePicker.setCurrentMinute(new Random().nextInt(60));
 
+        getActivity().setTitle("Select Pick Time");
+
         return view;
     }
 
