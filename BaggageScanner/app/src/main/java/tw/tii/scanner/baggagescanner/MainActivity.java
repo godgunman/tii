@@ -1,6 +1,11 @@
 package tw.tii.scanner.baggagescanner;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -32,6 +37,16 @@ import java.util.Collection;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements BeaconConsumer {
+    private static final int RING_REQUEST_CODE = 4831003;
+    private void ring() {
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private class MyRangeNotifier implements RangeNotifier {
         private boolean checked;
@@ -76,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                                     }
                                 });
 
+                                ring();
                             }
                         });
                         checked = true;
