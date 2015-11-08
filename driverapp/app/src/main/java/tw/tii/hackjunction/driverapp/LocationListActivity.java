@@ -53,7 +53,7 @@ public class LocationListActivity extends AppCompatActivity {
 
         String[] from = {"order_id", "address", "name"};
         int[] to = {R.id.text_order_id, R.id.text_address, R.id.text_name};
-        SimpleAdapter adapter = new SimpleAdapter(this, data, R.layout.listview_item, from, to);
+        SimpleAdapter adapter = new MySimpleAdapter(this, data, R.layout.listview_item, from, to);
 
         listView.setAdapter(adapter);
     }
