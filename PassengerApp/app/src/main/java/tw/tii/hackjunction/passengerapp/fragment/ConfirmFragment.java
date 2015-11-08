@@ -63,12 +63,14 @@ public class ConfirmFragment extends BaseFragment {
 
         String location = getString("location");
         String address = getString("address");
+        String username = getString("username");
 
         ParseObject request = new ParseObject("Order");
         request.put("flight_info", flightInfoStr);
         request.put("baggage_info", baggageInfoStr);
         request.put("pickup_datetime", datetimeInfoStr);
         request.put("address", address);
+        request.put("username", username);
 
         if (location != null) {
             double lat = Double.valueOf(location.split(",")[0]);
