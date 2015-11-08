@@ -18,5 +18,7 @@ public class PassengerApp extends Application {
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
         ParsePush.subscribeInBackground("BaggageScanner");
+        ParsePush.subscribeInBackground(Utils.getDeviceId(getApplicationContext()));
+
     }
 }
