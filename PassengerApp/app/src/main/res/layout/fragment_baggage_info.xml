@@ -10,73 +10,179 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/button_confirm"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/baggage_size"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:src="@drawable/baggage_size"
+        android:layout_marginTop="-60dp"
+        android:layout_marginBottom="-60dp" />
+
+    <LinearLayout
+        android:layout_below="@+id/baggage_size"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout3">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Large"
+                android:id="@+id/textView4"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:textSize="16dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="27-32&quot;"
+                android:id="@+id/textView34"
+                android:layout_gravity="center_horizontal" />
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/btn_plus1"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/plus"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp" />
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="0"
+                android:id="@+id/value_big_baggage"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center"
+                android:padding="2dp"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+            <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/btn_minus1"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/minus"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium"
+                android:id="@+id/textView7"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16dp"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23-26&quot;"
+                android:id="@+id/textView35"
+                android:layout_gravity="center_horizontal" />
+
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/btn_plus2"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/plus"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp" />
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="0"
+                android:id="@+id/value_medium_baggage"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center"
+                android:padding="2dp"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+            <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/btn_minus2"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/minus"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compact"
+                android:id="@+id/textView33"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16dp"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="21-22&quot;"
+                android:id="@+id/textView36"
+                android:layout_gravity="center_horizontal" />
+
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/btn_plus3"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/plus"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp" />
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="0"
+                android:id="@+id/value_small_baggage"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center"
+                android:padding="2dp"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+            <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/btn_minus3"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/minus"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/btn_next"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_centerHorizontal="true"
         android:onClick="nextToSelectLocation"
-        android:text="next" />
-
-    <LinearLayout
-        android:id="@+id/title_container"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Size"
-            android:id="@+id/textView"
-            android:layout_weight="5" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="number"
-            android:id="@+id/textView4"
-            android:layout_weight="5" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="del"
-            android:id="@+id/textView7"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title_container"
-        android:orientation="horizontal">
-
-        <Spinner
-            android:id="@+id/spinner_baggage_size"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5" />
-
-        <Spinner
-            android:id="@+id/spinner_baggage_number"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:text="X" />
-    </LinearLayout>
-
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_next" />
 </RelativeLayout>
