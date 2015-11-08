@@ -1,24 +1,27 @@
 package tw.tii.hackjunction.passengerapp.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.parse.ParseObject;
-
 import tw.tii.hackjunction.passengerapp.R;
 
 /**
- * Created by ggm on 11/7/15.
+ * Created by yi on 2015/11/7.
  */
-public class LogInFragment extends Fragment {
-
+public class FlightInfoFragment extends BaseFragment {
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_log_in,
+        View view = inflater.inflate(R.layout.fragment_flight_info,
                 container, false);
         return view;
+    }
+
+    @Override
+    public void putAllData() {
+        // Do nothing.
     }
 }

@@ -15,14 +15,14 @@
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/editText2"
+        android:layout_above="@+id/text_flight_number"
         android:layout_alignParentStart="true"
         android:ems="10"
         android:hint="username"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/text_flight_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -32,11 +32,11 @@
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/button_log_in"
+        android:id="@+id/button_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="nextToSelectFlight"
         android:text="next"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/editText2" />
+        android:layout_alignEnd="@+id/text_flight_number" />
 </RelativeLayout>
