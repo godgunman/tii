@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -179,6 +180,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             intent.putExtra("push_channel_list", pushChannelList.toArray(new String[pushChannelList.size()]));
 
             sendingComingPush(pushChannelList);
+            Toast.makeText(this, "Passenger will be notified that you are coming.", Toast.LENGTH_SHORT).show();
 
             startActivity(intent);
 

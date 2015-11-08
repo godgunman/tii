@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.parse.ParsePush;
 
@@ -45,7 +46,7 @@ public class LocationListActivity extends AppCompatActivity {
 
         for (int i = 0; i < orderIdList.length; i++) {
             Map<String, String> item = new HashMap<>();
-            item.put("order_id", orderIdList[i]);
+            item.put("order_id", "Order No.: " + orderIdList[i].toUpperCase().substring(0, 5));
             item.put("address", addressList[i]);
             item.put("name", nameList[i]);
             data.add(item);
@@ -87,6 +88,9 @@ public class LocationListActivity extends AppCompatActivity {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         if (pushChannelList[position] != null) {
+                            Toast.makeText(LocationListActivity.this,
+                                    "Passenger will be notified that their baggage have been picked up!", Toast.LENGTH_SHORT).show();
+
                             ParsePush push = new ParsePush();
                             push.setChannel(pushChannelList[position]);
                             push.setMessage("Your baggage has been picked up!");
