@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 fm.findFragmentById(R.id.fragment_container);
 
         ParseObject object = confirmFragment.getData();
+        object.put("push_channel", Utils.getDeviceId(getApplicationContext()));
         object.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

@@ -18,9 +18,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView locationPick;
     private TextView baggagePick;
     private Map<Marker, Boolean> isMarkerPicker;
-    private Map<Marker, String> markerToParseObjectId;
+    private Map<Marker, ParseObject> markerToParseObject;
     private boolean isCameraMoved;
 
 
@@ -68,7 +70,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         isCameraMoved = false;
 
         isMarkerPicker = new HashMap<>();
-        markerToParseObjectId = new HashMap<>();
+        markerToParseObject = new HashMap<>();
 
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
@@ -103,7 +105,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Request");
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Order");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -121,10 +123,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         .title(username)
                                         .snippet(address)
                                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                        markerToParseObjectId.put(marker, object.getObjectId());
+                        markerToParseObject.put(marker, object);
 
                         if (isCameraMoved == false) {
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
                             isCameraMoved = true;
                         }
                     }
@@ -158,11 +160,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<String> orderIdList = new ArrayList<>();
             List<String> addressList = new ArrayList<>();
             List<String> nameList = new ArrayList<>();
+            List<String> pushChannelList = new ArrayList<>();
 
             Set<Marker> keySet = isMarkerPicker.keySet();
             for (Marker marker : keySet) {
                 if (isMarkerPicker.get(marker) == Boolean.TRUE) {
-                    orderIdList.add(markerToParseObjectId.get(marker));
+                    ParseObject object = markerToParseObject.get(marker);
+                    pushChannelList.add(object.getString("push_channel"));
+                    orderIdList.add(object.getObjectId());
                     addressList.add(marker.getSnippet());
                     nameList.add(marker.getTitle());
                 }
@@ -171,6 +176,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             intent.putExtra("order_id_list", orderIdList.toArray(new String[orderIdList.size()]));
             intent.putExtra("address_list", addressList.toArray(new String[addressList.size()]));
             intent.putExtra("name_list", nameList.toArray(new String[nameList.size()]));
+            intent.putExtra("push_channel_list", pushChannelList.toArray(new String[pushChannelList.size()]));
+
+            sendingComingPush(pushChannelList);
 
             startActivity(intent);
 
@@ -179,5 +187,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendingComingPush(List<String> pushChannelList) {
+        for(String channel: pushChannelList) {
+            if (channel != null) {
+                ParsePush push = new ParsePush();
+                push.setChannel(channel);
+                push.setMessage("Your baggage will be pick up in 15 minutes");
+                push.sendInBackground();
+            }
+        }
     }
 }

@@ -1,5 +1,8 @@
 package tw.tii.hackjunction.passengerapp;
 
+import android.content.Context;
+import android.provider.Settings;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,6 +41,7 @@ public class Utils {
         }
         return null;
     }
+
     public static String getGEOUrl(String address) {
         try {
             address = URLEncoder.encode(address, "utf-8");
@@ -47,6 +51,7 @@ public class Utils {
         }
         return null;
     }
+
     public static String getAddressFromJSON(String jsonString) {
         try {
             JSONObject object = new JSONObject(jsonString);
@@ -58,5 +63,10 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getDeviceId(Context context) {
+        return "id_" + Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
     }
 }
