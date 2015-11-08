@@ -30,7 +30,7 @@ public class Utils {
         };
 
         for (int i = 0; i < names.length; i++) {
-            ParseObject object = new ParseObject("Request");
+            ParseObject object = new ParseObject("Order");
             object.put("location", new ParseGeoPoint(points[i][0], points[i][1]));
             object.put("username", names[i]);
             object.put("address", addresses[i]);
