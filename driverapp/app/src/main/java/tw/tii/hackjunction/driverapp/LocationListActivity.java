@@ -87,9 +87,10 @@ public class LocationListActivity extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
+                        Toast.makeText(LocationListActivity.this,
+                                "Passenger will be notified that their baggage have been picked up!", Toast.LENGTH_SHORT).show();
+
                         if (pushChannelList[position] != null) {
-                            Toast.makeText(LocationListActivity.this,
-                                    "Passenger will be notified that their baggage have been picked up!", Toast.LENGTH_SHORT).show();
 
                             ParsePush push = new ParsePush();
                             push.setChannel(pushChannelList[position]);
