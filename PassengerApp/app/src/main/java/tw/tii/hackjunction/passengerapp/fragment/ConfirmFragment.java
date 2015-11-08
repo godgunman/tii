@@ -64,7 +64,7 @@ public class ConfirmFragment extends BaseFragment {
         String location = getString("location");
         String address = getString("address");
 
-        ParseObject request = new ParseObject("Request");
+        ParseObject request = new ParseObject("Order");
         request.put("flight_info", flightInfoStr);
         request.put("baggage_info", baggageInfoStr);
         request.put("pickup_datetime", datetimeInfoStr);

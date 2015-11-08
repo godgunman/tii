@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+                    Toast.makeText(MainActivity.this, "Your order has been sent.", Toast.LENGTH_SHORT).show();
                     nextToSummary(view);
                 }
             }
