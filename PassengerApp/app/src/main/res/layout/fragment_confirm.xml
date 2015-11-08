@@ -19,7 +19,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:onClick="confirm"
-        android:text="CONFIRM &amp; SEND" />
+        android:text="CONFIRM &amp; SEND"/>
 
     <LinearLayout
         android:id="@+id/price_text_container"
